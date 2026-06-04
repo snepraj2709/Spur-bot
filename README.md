@@ -57,6 +57,7 @@ pnpm dev:backend
 pnpm dev:frontend
 pnpm build
 pnpm lint
+pnpm test
 pnpm db:migrate
 pnpm db:seed
 ```
@@ -69,7 +70,7 @@ pnpm db:seed
 - `src/services/` owns chat workflow and LLM integration.
 - `src/repositories/` owns SQLite reads and writes.
 - `src/db/` owns schema, migrations, seed data, and the SQLite client.
-- `src/cache/` contains Redis connection scaffolding.
+- `src/cache/` owns the optional Redis connection used to cache FAQ/domain knowledge.
 - `src/middleware/` owns centralized error handling.
 
 ## Frontend Overview
@@ -111,6 +112,7 @@ Returns past messages for a conversation so the frontend can render history on r
 - Provider: OpenAI.
 - API key: `OPENAI_API_KEY` in `backend/.env`.
 - Model: `OPENAI_MODEL`, defaulting to `gpt-4.1-mini`.
+- Redis: set `REDIS_URL` to cache FAQ/domain knowledge; without it, the backend falls back to SQLite.
 - Prompting:
   - Uses a support-agent system prompt.
   - Includes recent conversation history.
@@ -122,7 +124,7 @@ Returns past messages for a conversation so the frontend can render history on r
 
 ## Trade-offs and If I Had More Time
 
-- Add automated tests for route validation, repository persistence, and frontend API states.
-- Add Redis-backed response/session caching where it provides measurable value.
+- Expand automated tests to cover more browser interaction edge cases.
+- Expand Redis-backed caching to response/session data where it provides measurable value.
 - Add richer admin tooling for FAQ/domain knowledge.
 - Add streaming responses for a more responsive chat experience.
