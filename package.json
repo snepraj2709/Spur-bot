@@ -2,6 +2,7 @@
   "name": "spur-bot",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@10.33.2",
   "engines": {
     "node": ">=24 <25"
   },
@@ -10,15 +11,24 @@
     "frontend"
   ],
   "scripts": {
-    "dev": "concurrently \"npm run dev -w backend\" \"npm run dev -w frontend\"",
-    "dev:backend": "npm run dev -w backend",
-    "dev:frontend": "npm run dev -w frontend",
-    "build": "npm run build -w backend && npm run build -w frontend",
-    "lint": "npm run lint -w backend && npm run lint -w frontend",
-    "db:migrate": "npm run db:migrate -w backend",
-    "db:seed": "npm run db:seed -w backend"
+    "dev": "concurrently \"pnpm --filter spur-bot-backend dev\" \"pnpm --filter spur-bot-frontend dev\"",
+    "dev:backend": "pnpm --filter spur-bot-backend dev",
+    "dev:frontend": "pnpm --filter spur-bot-frontend dev",
+    "build": "pnpm --filter spur-bot-backend build && pnpm --filter spur-bot-frontend build",
+    "lint": "pnpm --filter spur-bot-backend lint && pnpm --filter spur-bot-frontend lint",
+    "db:migrate": "pnpm --filter spur-bot-backend db:migrate",
+    "db:seed": "pnpm --filter spur-bot-backend db:seed"
+  },
+  "dependencies": {
+    "openai": "^4.77.0"
   },
   "devDependencies": {
     "concurrently": "^9.1.2"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "better-sqlite3",
+      "esbuild"
+    ]
   }
 }

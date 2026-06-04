@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "installCommand": "npm install",
-  "buildCommand": "npm run build -w frontend",
+  "installCommand": "pnpm install --frozen-lockfile",
+  "buildCommand": "pnpm --filter spur-bot-frontend build",
   "outputDirectory": "frontend/dist",
   "rewrites": [
     {

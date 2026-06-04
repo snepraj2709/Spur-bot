@@ -17,7 +17,7 @@ Mini AI support agent for a live chat widget.
 1. Install dependencies.
 
 ```bash
-npm install
+pnpm install
 ```
 
 2. Configure backend environment.
@@ -37,14 +37,14 @@ cp frontend/.env.example frontend/.env
 4. Set up DB.
 
 ```bash
-npm run db:migrate
-npm run db:seed
+pnpm db:migrate
+pnpm db:seed
 ```
 
 5. Start backend and frontend together.
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
 - Backend: `http://localhost:4000`
@@ -53,12 +53,12 @@ npm run dev
 ## Useful Scripts
 
 ```bash
-npm run dev:backend
-npm run dev:frontend
-npm run build
-npm run lint
-npm run db:migrate
-npm run db:seed
+pnpm dev:backend
+pnpm dev:frontend
+pnpm build
+pnpm lint
+pnpm db:migrate
+pnpm db:seed
 ```
 
 ## Backend Overview
