@@ -79,3 +79,16 @@ test("API client surfaces backend error messages", async () => {
     /message cannot be empty/
   );
 });
+
+test("API client rejects invalid successful responses", async () => {
+  globalThis.fetch = async () =>
+    new Response("<!doctype html>", {
+      headers: { "Content-Type": "text/html" },
+      status: 200
+    });
+
+  await assert.rejects(
+    () => fetchSessionMessages("session-1"),
+    /previous chat session/
+  );
+});

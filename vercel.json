@@ -10,7 +10,11 @@
     },
     {
       "source": "/chat/session/:sessionId",
-      "destination": "/api/chat/session/:sessionId"
+      "destination": "/api/chat/session?sessionId=:sessionId"
+    },
+    {
+      "source": "/api/chat/session/:sessionId",
+      "destination": "/api/chat/session?sessionId=:sessionId"
     },
     {
       "source": "/health",

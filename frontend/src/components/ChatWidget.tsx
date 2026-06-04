@@ -30,8 +30,10 @@ export function ChatWidget() {
       .then((response) => {
         setMessages(response.messages);
       })
-      .catch((loadError: Error) => {
-        setError(loadError.message);
+      .catch(() => {
+        window.localStorage.removeItem(SESSION_STORAGE_KEY);
+        setSessionId(undefined);
+        setMessages([]);
       });
   }, [sessionId]);
 

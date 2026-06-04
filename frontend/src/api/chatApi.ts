@@ -15,7 +15,13 @@ export async function sendMessage(request: SendMessageRequest) {
     body: JSON.stringify(request)
   });
 
-  return parseResponse<SendMessageResponse>(response);
+  const payload = await parseResponse<unknown>(response);
+
+  if (!isSendMessageResponse(payload)) {
+    throw new Error("The support service returned an invalid response.");
+  }
+
+  return payload;
 }
 
 export async function fetchSessionMessages(sessionId: string) {
@@ -23,7 +29,13 @@ export async function fetchSessionMessages(sessionId: string) {
     `${API_BASE_URL}/chat/session/${encodeURIComponent(sessionId)}`
   );
 
-  return parseResponse<SessionMessagesResponse>(response);
+  const payload = await parseResponse<unknown>(response);
+
+  if (!isSessionMessagesResponse(payload)) {
+    throw new Error("Could not load the previous chat session.");
+  }
+
+  return payload;
 }
 
 async function parseResponse<T>(response: Response): Promise<T> {
@@ -34,4 +46,27 @@ async function parseResponse<T>(response: Response): Promise<T> {
   }
 
   return payload as T;
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null;
+}
+
+function isSendMessageResponse(value: unknown): value is SendMessageResponse {
+  return (
+    isRecord(value) &&
+    typeof value.reply === "string" &&
+    typeof value.sessionId === "string" &&
+    (value.warning === undefined || typeof value.warning === "string")
+  );
+}
+
+function isSessionMessagesResponse(
+  value: unknown
+): value is SessionMessagesResponse {
+  return (
+    isRecord(value) &&
+    typeof value.sessionId === "string" &&
+    Array.isArray(value.messages)
+  );
 }
