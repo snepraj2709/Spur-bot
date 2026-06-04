@@ -69,7 +69,7 @@ class ChatRepository {
   listMessages(conversationId: string): StoredMessage[] {
     const rows = getDb()
       .prepare(
-        "SELECT id, conversation_id, sender, text, created_at FROM messages WHERE conversation_id = ? ORDER BY created_at ASC, id ASC"
+        "SELECT id, conversation_id, sender, text, created_at FROM messages WHERE conversation_id = ? ORDER BY created_at ASC, rowid ASC"
       )
       .all(conversationId) as MessageRow[];
 

@@ -2,6 +2,7 @@ import { env } from "../config/env.js";
 import { HttpError } from "../middleware/error.middleware.js";
 import { chatRepository } from "../repositories/chat.repository.js";
 import type { ChatMessageInput, ChatServiceResponse } from "../types/chat.js";
+import { listFaqEntries } from "./knowledge.service.js";
 import { generateReply } from "./llm.service.js";
 
 const LLM_FAILURE_REPLY =
@@ -14,16 +15,20 @@ export async function sendChatMessage(
   const history = chatRepository
     .listMessages(sessionId)
     .slice(-env.MAX_HISTORY_MESSAGES);
-  const faqEntries = chatRepository.listFaqEntries();
+  const faqEntries = await listFaqEntries();
 
   chatRepository.saveMessage(sessionId, "user", input.message);
 
   let reply = LLM_FAILURE_REPLY;
 
-  try {
-    reply = await generateReply(history, input.message, faqEntries);
-  } catch (error) {
-    console.error("LLM generation failed", error);
+  if (env.OPENAI_API_KEY) {
+    try {
+      reply = await generateReply(history, input.message, faqEntries);
+    } catch (error) {
+      console.error("LLM generation failed", {
+        message: error instanceof Error ? error.message : "Unknown error"
+      });
+    }
   }
 
   chatRepository.saveMessage(sessionId, "ai", reply);
