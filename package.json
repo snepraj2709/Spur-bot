@@ -16,6 +16,7 @@
     "dev:frontend": "pnpm --filter spur-bot-frontend dev",
     "build": "pnpm --filter spur-bot-backend build && pnpm --filter spur-bot-frontend build",
     "lint": "pnpm --filter spur-bot-backend lint && pnpm --filter spur-bot-frontend lint",
+    "test": "pnpm --filter spur-bot-backend test && pnpm --filter spur-bot-frontend test",
     "db:migrate": "pnpm --filter spur-bot-backend db:migrate",
     "db:seed": "pnpm --filter spur-bot-backend db:seed"
   },
@@ -23,7 +24,8 @@
     "openai": "^4.77.0"
   },
   "devDependencies": {
-    "concurrently": "^9.1.2"
+    "concurrently": "^9.1.2",
+    "tsx": "^4.19.2"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
