@@ -1,5 +1,5 @@
 import { Send } from "lucide-react";
-import { FormEvent, KeyboardEvent, useState } from "react";
+import { FormEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
 
 type ChatInputProps = {
   disabled: boolean;
@@ -8,6 +8,13 @@ type ChatInputProps = {
 
 export function ChatInput({ disabled, onSend }: ChatInputProps) {
   const [value, setValue] = useState("");
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    if (!disabled) {
+      textareaRef.current?.focus({ preventScroll: true });
+    }
+  }, [disabled]);
 
   function submit(event?: FormEvent<HTMLFormElement>) {
     event?.preventDefault();
@@ -32,6 +39,7 @@ export function ChatInput({ disabled, onSend }: ChatInputProps) {
   return (
     <form className="chat-input" onSubmit={submit}>
       <textarea
+        ref={textareaRef}
         aria-label="Message"
         disabled={disabled}
         onChange={(event) => setValue(event.target.value)}
