@@ -24,6 +24,7 @@ export function ChatInput({ disabled, onSend }: ChatInputProps) {
 
   function handleKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {
     if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
       submit();
     }
   }
