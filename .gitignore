@@ -8,3 +8,5 @@ dist/
 backend/data/
 backend/dist/
 frontend/dist/
+.vercel
+.env*.local
